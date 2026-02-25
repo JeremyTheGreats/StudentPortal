@@ -4,7 +4,6 @@ import config.Session;
 import config.config;
 import javax.swing.JOptionPane;
 
-
 public class Students extends javax.swing.JFrame {
 
     public Students() {
@@ -14,15 +13,13 @@ public class Students extends javax.swing.JFrame {
 
     public void displayClassList() {
         config db = new config();
-        Session ses = Session.getInstance();
-        int teacherId = ses.getId();
+        int teacherId = Session.getInstance().getId();
 
-        // Added e.e_id as the first column so the button can find it
         String sql = "SELECT e.e_id AS 'Enrollment ID', "
                 + "u.fullname AS 'Student Name', "
                 + "s.s_name AS 'Subject', "
-                + "e.e_date AS 'Enrollment Date', "
-                + "e.e_grade AS 'Grade' "
+                + "e.e_grade AS 'Grade', "
+                + "e.e_status AS 'Status' " // Add this to see the current status
                 + "FROM tbl_enrollment e "
                 + "JOIN tbl_user u ON e.u_id = u.id "
                 + "JOIN tbl_subjects s ON e.s_id = s.s_id "
@@ -42,8 +39,12 @@ public class Students extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         student = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        update = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        searchField = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -93,6 +94,8 @@ public class Students extends javax.swing.JFrame {
         });
         jPanel1.add(studentmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 20, 138, 35));
 
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 65));
+
         student.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -103,37 +106,38 @@ public class Students extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(student);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 71, 770, 270));
+
         jButton1.setText("Give Grade");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 155, 41));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
-        );
+        update.setText("Update Status");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+        getContentPane().add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 155, 41));
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 360, 245, 40));
+
+        searchField.setText("Search");
+        searchField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchFieldActionPerformed(evt);
+            }
+        });
+        getContentPane().add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 410, 90, 40));
 
         pack();
         setLocationRelativeTo(null);
@@ -198,11 +202,10 @@ public class Students extends javax.swing.JFrame {
     }//GEN-LAST:event_profileMouseExited
 
     private void studentmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentmenuMouseClicked
-        // future gui design if mo click sa same frame kay mo refresh.
-        JOptionPane.showMessageDialog(this,
-                "Welcome to Student Dashboard!",
-                "Student Menu",
-                JOptionPane.INFORMATION_MESSAGE);
+
+        teacher te = new teacher();
+        te.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_studentmenuMouseClicked
 
     private void studentmenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentmenuMouseEntered
@@ -251,14 +254,88 @@ public class Students extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        config conf = new config();
+        int row = student.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a student from the table!");
+            return;
+        }
+
+        // Grab the ID from the first column (index 0)
+        String enrollmentId = student.getValueAt(row, 0).toString();
+        String studentName = student.getValueAt(row, 1).toString();
+
+        // These are the statuses you want the teacher to be able to switch to
+        String[] statusOptions = {"enrolled", "dropped", "completed", "incomplete"};
+
+        String newStatus = (String) JOptionPane.showInputDialog(null,
+                "Update status for " + studentName, "Manage Enrollment",
+                JOptionPane.QUESTION_MESSAGE, null, statusOptions, statusOptions[0]);
+
+        if (newStatus != null) {
+            // UPDATE THE DATABASE
+            // Ensure 'e_status' matches the exact column name in your tbl_enrollment
+            String sql = "UPDATE tbl_enrollment SET e_status = ? WHERE e_id = ?";
+            conf.updateRecord(sql, newStatus, enrollmentId);
+
+            // Refresh the JTable
+            displayClassList();
+            JOptionPane.showMessageDialog(this, "Status updated to: " + newStatus);
+        }
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+        config db = new config();
+        int teacherId = Session.getInstance().getId();
+        String find = searchField.getText();
+
+        // Query that filters by Student Name or Subject Name
+        String sql = "SELECT e.e_id AS 'Enrollment ID', u.fullname AS 'Student Name', "
+                + "s.s_name AS 'Subject', e.e_grade AS 'Grade', e.e_status AS 'Status' "
+                + "FROM tbl_enrollment e "
+                + "JOIN tbl_user u ON e.u_id = u.id "
+                + "JOIN tbl_subjects s ON e.s_id = s.s_id "
+                + "WHERE s.teacher_id = '" + teacherId + "' "
+                + "AND (u.fullname LIKE '%" + find + "%' OR s.s_name LIKE '%" + find + "%')";
+
+        db.displayData(sql, student);
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        config db = new config();
+        // Get the current teacher's ID so they only search within THEIR students
+        int teacherId = Session.getInstance().getId();
+        String find = jTextField1.getText();
+
+        // The SQL query uses 'LIKE' and '%' to find partial matches for names or subjects
+        String sql = "SELECT e.e_id AS 'Enrollment ID', "
+                + "u.fullname AS 'Student Name', "
+                + "s.s_name AS 'Subject', "
+                + "e.e_grade AS 'Grade', "
+                + "e.e_status AS 'Status' "
+                + "FROM tbl_enrollment e "
+                + "JOIN tbl_user u ON e.u_id = u.id "
+                + "JOIN tbl_subjects s ON e.s_id = s.s_id "
+                + "WHERE s.teacher_id = '" + teacherId + "' "
+                + "AND (u.fullname LIKE '%" + find + "%' OR s.s_name LIKE '%" + find + "%')";
+
+        // Update your JTable (named 'student') with the filtered results
+        db.displayData(sql, student);
+    }//GEN-LAST:event_jTextField1KeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel profile;
+    private javax.swing.JButton searchField;
     private javax.swing.JTable student;
     private javax.swing.JLabel studentmenu;
+    private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
 }

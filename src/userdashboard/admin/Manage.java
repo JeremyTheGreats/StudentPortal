@@ -190,7 +190,7 @@ public class Manage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adminmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adminmenuMouseClicked
-        Manage ad = new Manage();
+        admin ad = new admin();
         ad.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_adminmenuMouseClicked
@@ -427,7 +427,7 @@ public class Manage extends javax.swing.JFrame {
         // 3. CREATE UI COMPONENTS PRE-FILLED WITH CURRENT DATA
         JTextField fnField = new JTextField(currentFN, 15);
         JTextField emField = new JTextField(currentEM, 15);
-        String[] roles = {"student", "admin"};
+        String[] roles = {"student", "admin", "teacher"};
         JComboBox<String> roleBox = new JComboBox<>(roles);
         roleBox.setSelectedItem(currentRole);
 
