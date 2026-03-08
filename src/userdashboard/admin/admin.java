@@ -2,8 +2,10 @@ package userdashboard.admin;
 
 import config.Session;
 import config.config;
+import java.awt.Image;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class admin extends javax.swing.JFrame {
@@ -11,20 +13,34 @@ public class admin extends javax.swing.JFrame {
     public admin() {
         initComponents();
 
-        // APPLY THE SESSION DATA
         Session ses = Session.getInstance();
 
+        // Display student count
         student.setText(String.valueOf(getStudentCount()));
 
-        if (ses != null) {
-            // Change a JLabel text to show the logged-in name
+        if (ses != null && ses.getId() != 0) { // Checking ID is safer than just null
             lbl_welcome.setText("Welcome, " + ses.getFullname());
-            lbl_role.setText("Role: " + "ADMIN");
+            lbl_role.setText("Role: ADMIN");
+
+            // CALL THE IMAGE HELPER
+            updateAdminImage(ses.getImagePath());
+
         } else {
-            // SECURITY: If someone tries to run this frame without logging in, kick them out
             JOptionPane.showMessageDialog(this, "Please login first!");
             new main.login().setVisible(true);
             this.dispose();
+        }
+    }
+
+    public void updateAdminImage(String path) {
+        try {
+            if (path != null && !path.isEmpty()) {
+                ImageIcon icon = new ImageIcon(path);
+                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                setprofile.setIcon(new ImageIcon(img));
+            }
+        } catch (Exception e) {
+            System.out.println("Image Error: " + e.getMessage());
         }
     }
 
@@ -56,7 +72,7 @@ public class admin extends javax.swing.JFrame {
         profile = new javax.swing.JLabel();
         lbl_welcome = new javax.swing.JLabel();
         lbl_role = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        setprofile = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         student = new javax.swing.JLabel();
@@ -115,7 +131,7 @@ public class admin extends javax.swing.JFrame {
                 profileMouseExited(evt);
             }
         });
-        jPanel1.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(589, 20, 81, 35));
+        jPanel1.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 81, 35));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 65));
 
@@ -129,8 +145,8 @@ public class admin extends javax.swing.JFrame {
         lbl_role.setText("role");
         getContentPane().add(lbl_role, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 200, 38));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/ad.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+        setprofile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/ad.jpg"))); // NOI18N
+        getContentPane().add(setprofile, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -187,6 +203,7 @@ public class admin extends javax.swing.JFrame {
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 450));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void adminmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adminmenuMouseClicked
@@ -254,7 +271,9 @@ public class admin extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutMouseExited
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-
+        profile pro = new profile();
+        pro.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_profileMouseClicked
 
@@ -323,7 +342,6 @@ public class admin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adminmenu;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -335,6 +353,7 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JLabel logout;
     private javax.swing.JLabel manageuser;
     private javax.swing.JLabel profile;
+    private javax.swing.JLabel setprofile;
     private javax.swing.JLabel student;
     // End of variables declaration//GEN-END:variables
 }

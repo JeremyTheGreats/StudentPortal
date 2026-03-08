@@ -2,10 +2,13 @@ package userdashboard.teacher;
 
 import config.Session;
 import config.config;
+import java.awt.Image;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import main.login;
+import userdashboard.admin.profile;
 
 public class teacher extends javax.swing.JFrame {
 
@@ -21,12 +24,25 @@ public class teacher extends javax.swing.JFrame {
         lbl_welcome.setText("Welcome, " + ses.getFullname());
         lbl_id_display.setText("ID : " + ses.getId());
         lbl_email_display.setText(ses.getEmail());
-
+        updateImage(ses.getImagePath());
         totalStudents.setText(String.valueOf(countMyStudents()));
 
         displayMySubjects();
     }
-
+    
+    public void updateImage(String path) {
+        try {
+            if (path != null && !path.isEmpty()) {
+                ImageIcon icon = new ImageIcon(path);
+                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                setprofile.setIcon(new ImageIcon(img));
+            }
+        } catch (Exception e) {
+            System.out.println("Image Error: " + e.getMessage());
+        }
+    }
+    
+    
     public boolean isSessionValid() {
         Session s = Session.getInstance();
         if (s.getId() == 0 || !s.getRole().equalsIgnoreCase("teacher")) {
@@ -86,7 +102,7 @@ public class teacher extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lbl_email_display = new javax.swing.JLabel();
         lbl_id_display = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        setprofile = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         subject = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -166,8 +182,8 @@ public class teacher extends javax.swing.JFrame {
         lbl_id_display.setText("ID");
         jPanel2.add(lbl_id_display, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 190, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/teacher.jpg"))); // NOI18N
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 150, 150));
+        setprofile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/teacher.jpg"))); // NOI18N
+        jPanel2.add(setprofile, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 150, 150));
 
         subject.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         subject.setModel(new javax.swing.table.DefaultTableModel(
@@ -224,9 +240,7 @@ public class teacher extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(lbl_welcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
@@ -320,7 +334,9 @@ public class teacher extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutMouseExited
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-
+        profile pro = new profile();
+        pro.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_profileMouseClicked
 
@@ -356,7 +372,6 @@ public class teacher extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -366,6 +381,7 @@ public class teacher extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_welcome;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel profile;
+    private javax.swing.JLabel setprofile;
     private javax.swing.JLabel studentmenu;
     private javax.swing.JTable subject;
     private javax.swing.JLabel totalStudents;

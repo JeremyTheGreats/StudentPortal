@@ -2,10 +2,13 @@ package userdashboard.student;
 
 import config.Session;
 import config.config;
+import java.awt.Image;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import userdashboard.admin.profile;
 
 public class student extends javax.swing.JFrame {
 
@@ -17,7 +20,21 @@ public class student extends javax.swing.JFrame {
         lbl_welcome.setText("Welcome, " + ses.getFullname());
         lbl_id_display.setText("ID : " + ses.getId());
         lbl_email_display.setText(ses.getEmail());
+        
+        updateImage(ses.getImagePath());
         displayEnrolledSubjects();
+    }
+
+    public void updateImage(String path) {
+        try {
+            if (path != null && !path.isEmpty()) {
+                ImageIcon icon = new ImageIcon(path);
+                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                setprofile.setIcon(new ImageIcon(img));
+            }
+        } catch (Exception e) {
+            System.out.println("Image Error: " + e.getMessage());
+        }
     }
 
     public void displayEnrolledSubjects() {
@@ -66,7 +83,7 @@ public class student extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lbl_email_display = new javax.swing.JLabel();
         lbl_id_display = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        setprofile = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         subjects = new javax.swing.JTable();
@@ -146,8 +163,8 @@ public class student extends javax.swing.JFrame {
         lbl_id_display.setText("ID");
         jPanel2.add(lbl_id_display, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 180, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/student.jpg"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 150, 150));
+        setprofile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Picture/student.jpg"))); // NOI18N
+        jPanel2.add(setprofile, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 150, 150));
 
         jButton1.setText("Enroll a Subject");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -239,6 +256,7 @@ public class student extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void studentmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentmenuMouseClicked
@@ -303,7 +321,9 @@ public class student extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutMouseExited
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-
+        profile pro = new profile();
+        pro.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_profileMouseClicked
 
@@ -380,7 +400,6 @@ public class student extends javax.swing.JFrame {
     private javax.swing.JLabel gwas;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -391,6 +410,7 @@ public class student extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_welcome;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel profile;
+    private javax.swing.JLabel setprofile;
     private javax.swing.JLabel studentmenu;
     private javax.swing.JTable subjects;
     // End of variables declaration//GEN-END:variables

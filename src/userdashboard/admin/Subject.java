@@ -57,7 +57,8 @@ public class Subject extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         adminmenu.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        adminmenu.setText("Admin Menu");
+        adminmenu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        adminmenu.setText("Back");
         adminmenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 adminmenuMouseClicked(evt);

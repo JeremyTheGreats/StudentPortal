@@ -195,28 +195,30 @@ public class login extends javax.swing.JFrame {
             String userType = (String) userRow.get("type");
             String status = (String) userRow.get("status");
             String email = (String) userRow.get("email");
+            String path = (String ) userRow.get("u_image");
 
             if ("active".equalsIgnoreCase(status)) {
 
-                // 2. APPLY SESSION DATA (Using your updated Session class)
+                
                 Session ses = Session.getInstance();
                 ses.setId(id);
                 ses.setFullname(fullname);
                 ses.setEmail(email);
                 ses.setRole(userType);
                 ses.setStatus(status);
-                // ses.setImagePath(""); // Set this if you have the path in DB
+                ses.setUsername(username);
+                ses.setImagePath(path); 
 
                 String welcomeName = (fullname != null && !fullname.isEmpty()) ? fullname : username;
                 JOptionPane.showMessageDialog(null, "Welcome back, " + welcomeName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
 
-                // 3. REDIRECT
+                
                 if ("admin".equalsIgnoreCase(userType)) {
                     userdashboard.admin.admin adminFrame = new userdashboard.admin.admin();
                     adminFrame.setLocationRelativeTo(null);
                     adminFrame.setVisible(true);
                 } else if ("teacher".equalsIgnoreCase(userType)) {
-                    // Make sure your package path is correct for the teacher dashboard
+                    
                     userdashboard.teacher.teacher teacherFrame = new userdashboard.teacher.teacher();
                     teacherFrame.setLocationRelativeTo(null);
                     teacherFrame.setVisible(true);
@@ -238,7 +240,7 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_loginActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     public static void main(String args[]) {

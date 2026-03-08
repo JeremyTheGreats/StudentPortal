@@ -3,6 +3,7 @@ package userdashboard.teacher;
 import config.Session;
 import config.config;
 import javax.swing.JOptionPane;
+import userdashboard.admin.profile;
 
 public class Students extends javax.swing.JFrame {
 
@@ -80,7 +81,8 @@ public class Students extends javax.swing.JFrame {
         jPanel1.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(589, 20, 81, 35));
 
         studentmenu.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        studentmenu.setText("Teacher Menu");
+        studentmenu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        studentmenu.setText("Back");
         studentmenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 studentmenuMouseClicked(evt);
@@ -181,7 +183,9 @@ public class Students extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutMouseExited
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-
+        profile pro = new profile();
+        pro.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_profileMouseClicked
 

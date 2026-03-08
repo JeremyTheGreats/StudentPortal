@@ -11,6 +11,15 @@ public class Session {
     private String role;
     private String status;
     private String ImagePath;
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     // Private constructor ensures no other class can create a new Session object
     private Session() {
