@@ -3,6 +3,7 @@ package userdashboard.student;
 import config.Session;
 import config.config;
 import java.awt.Image;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
@@ -20,7 +21,7 @@ public class student extends javax.swing.JFrame {
         lbl_welcome.setText("Welcome, " + ses.getFullname());
         lbl_id_display.setText("ID : " + ses.getId());
         lbl_email_display.setText(ses.getEmail());
-        
+
         updateImage(ses.getImagePath());
         displayEnrolledSubjects();
     }
@@ -28,12 +29,40 @@ public class student extends javax.swing.JFrame {
     public void updateImage(String path) {
         try {
             if (path != null && !path.isEmpty()) {
-                ImageIcon icon = new ImageIcon(path);
-                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-                setprofile.setIcon(new ImageIcon(img));
+                File imgFile = new File(path);
+
+                // 1. Check if it's an external file (e.g., from profile_pics folder)
+                if (imgFile.exists()) {
+                    ImageIcon icon = new ImageIcon(imgFile.getAbsolutePath());
+                    Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                    setprofile.setIcon(new ImageIcon(img));
+                } // 2. Check if it's an internal resource (inside the JAR)
+                else {
+                    java.net.URL imgURL = getClass().getResource(path);
+                    if (imgURL != null) {
+                        ImageIcon icon = new ImageIcon(imgURL);
+                        Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                        setprofile.setIcon(new ImageIcon(img));
+                    } else {
+                        // 3. Fallback if path is dead
+                        setDefaultAdminIcon();
+                    }
+                }
+            } else {
+                setDefaultAdminIcon();
             }
         } catch (Exception e) {
-            System.out.println("Image Error: " + e.getMessage());
+            System.out.println("Admin Image Error: " + e.getMessage());
+            setDefaultAdminIcon();
+        }
+    }
+
+    private void setDefaultAdminIcon() {
+        java.net.URL defaultUrl = getClass().getResource("/Picture/default_user.png");
+        if (defaultUrl != null) {
+            ImageIcon icon = new ImageIcon(defaultUrl);
+            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            setprofile.setIcon(new ImageIcon(img));
         }
     }
 

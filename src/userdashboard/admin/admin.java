@@ -3,6 +3,7 @@ package userdashboard.admin;
 import config.Session;
 import config.config;
 import java.awt.Image;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
@@ -18,11 +19,11 @@ public class admin extends javax.swing.JFrame {
         // Display student count
         student.setText(String.valueOf(getStudentCount()));
 
-        if (ses != null && ses.getId() != 0) { // Checking ID is safer than just null
+        if (ses != null && ses.getId() != 0) {
             lbl_welcome.setText("Welcome, " + ses.getFullname());
             lbl_role.setText("Role: ADMIN");
 
-            // CALL THE IMAGE HELPER
+            // CALL THE UPDATED IMAGE HELPER
             updateAdminImage(ses.getImagePath());
 
         } else {
@@ -35,12 +36,40 @@ public class admin extends javax.swing.JFrame {
     public void updateAdminImage(String path) {
         try {
             if (path != null && !path.isEmpty()) {
-                ImageIcon icon = new ImageIcon(path);
-                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-                setprofile.setIcon(new ImageIcon(img));
+                File imgFile = new File(path);
+
+                // 1. Check if it's an external file (e.g., from profile_pics folder)
+                if (imgFile.exists()) {
+                    ImageIcon icon = new ImageIcon(imgFile.getAbsolutePath());
+                    Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                    setprofile.setIcon(new ImageIcon(img));
+                } // 2. Check if it's an internal resource (inside the JAR)
+                else {
+                    java.net.URL imgURL = getClass().getResource(path);
+                    if (imgURL != null) {
+                        ImageIcon icon = new ImageIcon(imgURL);
+                        Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                        setprofile.setIcon(new ImageIcon(img));
+                    } else {
+                        // 3. Fallback if path is dead
+                        setDefaultAdminIcon();
+                    }
+                }
+            } else {
+                setDefaultAdminIcon();
             }
         } catch (Exception e) {
-            System.out.println("Image Error: " + e.getMessage());
+            System.out.println("Admin Image Error: " + e.getMessage());
+            setDefaultAdminIcon();
+        }
+    }
+
+    private void setDefaultAdminIcon() {
+        java.net.URL defaultUrl = getClass().getResource("/Picture/default_user.png");
+        if (defaultUrl != null) {
+            ImageIcon icon = new ImageIcon(defaultUrl);
+            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            setprofile.setIcon(new ImageIcon(img));
         }
     }
 
@@ -48,12 +77,10 @@ public class admin extends javax.swing.JFrame {
         int total = 0;
         try {
             config db = new config();
-            // Query to count only students
             String sql = "SELECT COUNT(*) as total FROM tbl_user WHERE type = 'student'";
             List<Map<String, Object>> result = db.fetchRecords(sql);
 
             if (result != null && !result.isEmpty()) {
-                // Retrieve the "total" column value
                 total = Integer.parseInt(result.get(0).get("total").toString());
             }
         } catch (Exception e) {
@@ -136,9 +163,9 @@ public class admin extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 65));
 
         lbl_welcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        lbl_welcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_welcome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbl_welcome.setText("welcome");
-        getContentPane().add(lbl_welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 200, 47));
+        getContentPane().add(lbl_welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 420, 47));
 
         lbl_role.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lbl_role.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

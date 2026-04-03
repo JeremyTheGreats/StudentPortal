@@ -60,12 +60,44 @@ public class profile extends javax.swing.JFrame {
     public void updateImage(String path) {
         try {
             if (path != null && !path.isEmpty()) {
-                ImageIcon icon = new ImageIcon(path);
-                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-                setprofile.setIcon(new ImageIcon(img));
+                File imgFile = new File(path);
+
+                // 1. Check if it's an external file (uploaded photos)
+                if (imgFile.exists()) {
+                    ImageIcon icon = new ImageIcon(imgFile.getAbsolutePath());
+                    Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                    setprofile.setIcon(new ImageIcon(img));
+                } // 2. Check if it's an internal resource (inside the JAR)
+                else {
+                    java.net.URL imgURL = getClass().getResource(path);
+                    if (imgURL != null) {
+                        ImageIcon icon = new ImageIcon(imgURL);
+                        Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                        setprofile.setIcon(new ImageIcon(img));
+                    } else {
+                        // 3. Fallback to default if path is invalid
+                        setDefaultPlaceholder();
+                    }
+                }
+            } else {
+                setDefaultPlaceholder();
             }
         } catch (Exception e) {
             System.out.println("Image Error: " + e.getMessage());
+            setDefaultPlaceholder();
+        }
+    }
+
+// Helper method to keep your code clean
+    private void setDefaultPlaceholder() {
+        // This looks inside your 'src/Picture' package even after building
+        java.net.URL defaultUrl = getClass().getResource("/Picture/default_user.png");
+        if (defaultUrl != null) {
+            ImageIcon icon = new ImageIcon(defaultUrl);
+            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            setprofile.setIcon(new ImageIcon(img));
+        } else {
+            System.out.println("Default image not found in resources!");
         }
     }
 
@@ -397,41 +429,46 @@ public class profile extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            // 1. Get the Session instance first
             Session ses = Session.getInstance();
             config conf = new config();
             int userId = ses.getId();
 
-            // 2. Only copy the file if a new one was actually selected
             if (selectedFile != null) {
-                File directory = new File("src/Picture");
+                // 1. CHANGE: Save to a folder called "uploads" or "images" 
+                // This will be created next to your JAR file in the dist folder.
+                File directory = new File("Picture");
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
 
+                // 2. Create a unique filename so users don't overwrite each other
+                String fileName = userId + "_" + System.currentTimeMillis() + "_" + selectedFile.getName();
+                File finalPath = new File(directory, fileName);
+
                 Path source = Paths.get(selectedFile.getAbsolutePath());
-                Path target = Paths.get(destinationPath);
+                Path target = finalPath.toPath();
+
                 Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 
-                // Update session with new path
+                // 3. Save the path to the database (use absolute path or relative to project)
+                destinationPath = finalPath.getPath();
                 ses.setImagePath(destinationPath);
             } else {
-                // Keep the old path if no new file was chosen
                 destinationPath = ses.getImagePath();
             }
 
-            // 3. Update Database (fullname and email from text fields)
+            // 3. Update Database
             String sql = "UPDATE tbl_user SET fullname = ?, email = ?, u_image = ? WHERE id = ?";
             conf.updateRecord(sql, txt_fullname.getText(), txt_email.getText(), destinationPath, String.valueOf(userId));
 
-            // Sync text data back to session
+            // Sync session
             ses.setFullname(txt_fullname.getText());
             ses.setEmail(txt_email.getText());
 
-            JOptionPane.showMessageDialog(this, "Profile and Image Saved!");
+            JOptionPane.showMessageDialog(this, "Profile Saved!");
 
             // 4. Role-based Redirection
-            String role = ses.getRole(); // Using getType() based on your earlier session setup
+            String role = ses.getRole();
             if (role.equalsIgnoreCase("admin")) {
                 new admin().setVisible(true);
             } else if (role.equalsIgnoreCase("teacher")) {
