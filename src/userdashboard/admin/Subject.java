@@ -45,7 +45,7 @@ public class Subject extends javax.swing.JFrame {
         profile = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        Delete = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,10 +109,10 @@ public class Subject extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        jButton1.setText("Delete");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Delete.setText("Delete");
+        Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                DeleteActionPerformed(evt);
             }
         });
 
@@ -138,7 +138,7 @@ public class Subject extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(85, 85, 85)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -152,7 +152,7 @@ public class Subject extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(Delete, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(69, 69, 69))
         );
@@ -244,28 +244,51 @@ public class Subject extends javax.swing.JFrame {
         profile.setBackground(new java.awt.Color(255, 102, 102));
     }//GEN-LAST:event_profileMouseExited
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
+
         int rowIndex = table.getSelectedRow();
 
         if (rowIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Please select a user to delete.");
+            JOptionPane.showMessageDialog(this, "Please select a subject to delete.");
             return;
         }
 
-        // Get the ID from the first column of the selected row
-        String id = table.getModel().getValueAt(rowIndex, 0).toString();
+        try {
+            // 1. Get the correct ID from the model (Sorting safe)
+            int modelIndex = table.convertRowIndexToModel(rowIndex);
+            String subjectId = table.getModel().getValueAt(modelIndex, 0).toString();
+            
 
-        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete ID: " + id + "?", "Warning", JOptionPane.YES_NO_OPTION);
+            // 2. Confirm with a stronger warning
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Are you sure Want to delete this?\n"
+                    + "Do you want to proceed?",
+                    "Confirmation",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
 
-        if (confirm == JOptionPane.YES_OPTION) {
-            config db = new config();
-            db.deleteRecord("DELETE FROM tbl_user WHERE id = ?", id);
+            if (confirm == JOptionPane.YES_OPTION) {
+                config db = new config();
 
-            // Refresh the table after deletion
-            displayData();
-            JOptionPane.showMessageDialog(this, "User deleted successfully!");
+                // 3. STEP 1: Delete all dependent records first
+                // Replace 'tbl_enrollment' and 's_id' with your actual enrollment table/column names
+                String deleteEnrollments = "DELETE FROM tbl_enrollment WHERE s_id = ?";
+                db.deleteRecord(deleteEnrollments, subjectId);
+
+                // 4. STEP 2: Now delete the subject itself
+                String deleteSubject = "DELETE FROM tbl_subjects WHERE s_id = ?";
+                db.deleteRecord(deleteSubject, subjectId);
+
+                // 5. Refresh the JTable
+                displayData();
+                JOptionPane.showMessageDialog(this, "Subject and associated enrollments deleted.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_DeleteActionPerformed
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
 
@@ -414,8 +437,8 @@ public class Subject extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Delete;
     private javax.swing.JLabel adminmenu;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
