@@ -37,7 +37,6 @@ public class Manage extends javax.swing.JFrame {
         adminmenu = new javax.swing.JLabel();
         logout = new javax.swing.JLabel();
         profile = new javax.swing.JLabel();
-        manageuser = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -96,21 +95,6 @@ public class Manage extends javax.swing.JFrame {
         });
         jPanel1.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(589, 20, 81, 35));
 
-        manageuser.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        manageuser.setText("Manage User");
-        manageuser.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                manageuserMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                manageuserMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                manageuserMouseExited(evt);
-            }
-        });
-        jPanel1.add(manageuser, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 138, 35));
-
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -139,6 +123,11 @@ public class Manage extends javax.swing.JFrame {
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -274,32 +263,6 @@ public class Manage extends javax.swing.JFrame {
         profile.setOpaque(false);
         profile.setBackground(new java.awt.Color(255, 102, 102));
     }//GEN-LAST:event_profileMouseExited
-
-    private void manageuserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageuserMouseClicked
-        Manage ma = new Manage();
-        ma.setVisible(true);
-        this.dispose();
-
-
-    }//GEN-LAST:event_manageuserMouseClicked
-
-    private void manageuserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageuserMouseEntered
-        manageuser.setForeground(new java.awt.Color(255, 255, 255));
-        manageuser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        manageuser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 1));
-        manageuser.setOpaque(true);
-        manageuser.setBackground(new java.awt.Color(230, 80, 80));
-
-    }//GEN-LAST:event_manageuserMouseEntered
-
-    private void manageuserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageuserMouseExited
-        manageuser.setForeground(new java.awt.Color(0, 0, 0));
-        manageuser.setBorder(null);
-        manageuser.setOpaque(false);
-        manageuser.setBackground(new java.awt.Color(255, 102, 102));
-
-
-    }//GEN-LAST:event_manageuserMouseExited
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int rowIndex = table.getSelectedRow();
@@ -522,6 +485,10 @@ public class Manage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adminmenu;
@@ -532,7 +499,6 @@ public class Manage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel logout;
-    private javax.swing.JLabel manageuser;
     private javax.swing.JLabel profile;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables

@@ -43,13 +43,10 @@ public class Subject extends javax.swing.JFrame {
         adminmenu = new javax.swing.JLabel();
         logout = new javax.swing.JLabel();
         profile = new javax.swing.JLabel();
-        manageuser = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,21 +99,6 @@ public class Subject extends javax.swing.JFrame {
         });
         jPanel1.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(589, 20, 81, 35));
 
-        manageuser.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        manageuser.setText("Manage User");
-        manageuser.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                manageuserMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                manageuserMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                manageuserMouseExited(evt);
-            }
-        });
-        jPanel1.add(manageuser, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 138, 35));
-
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -134,13 +116,6 @@ public class Subject extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Edit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jButton3.setText("Add Subject");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -150,13 +125,6 @@ public class Subject extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Status ");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
             }
         });
 
@@ -170,13 +138,9 @@ public class Subject extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(85, 85, 85)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -190,11 +154,7 @@ public class Subject extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(69, 69, 69))
         );
 
         pack();
@@ -202,7 +162,7 @@ public class Subject extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adminmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adminmenuMouseClicked
-        Subject ad = new Subject();
+        admin ad = new admin();
         ad.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_adminmenuMouseClicked
@@ -283,32 +243,6 @@ public class Subject extends javax.swing.JFrame {
         profile.setOpaque(false);
         profile.setBackground(new java.awt.Color(255, 102, 102));
     }//GEN-LAST:event_profileMouseExited
-
-    private void manageuserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageuserMouseClicked
-        Subject ma = new Subject();
-        ma.setVisible(true);
-        this.dispose();
-
-
-    }//GEN-LAST:event_manageuserMouseClicked
-
-    private void manageuserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageuserMouseEntered
-        manageuser.setForeground(new java.awt.Color(255, 255, 255));
-        manageuser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        manageuser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 1));
-        manageuser.setOpaque(true);
-        manageuser.setBackground(new java.awt.Color(230, 80, 80));
-
-    }//GEN-LAST:event_manageuserMouseEntered
-
-    private void manageuserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageuserMouseExited
-        manageuser.setForeground(new java.awt.Color(0, 0, 0));
-        manageuser.setBorder(null);
-        manageuser.setOpaque(false);
-        manageuser.setBackground(new java.awt.Color(255, 102, 102));
-
-
-    }//GEN-LAST:event_manageuserMouseExited
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int rowIndex = table.getSelectedRow();
@@ -420,117 +354,6 @@ public class Subject extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // 1. GET THE SELECTED ROW
-        int row = table.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a user to edit!", "Selection Required", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // 2. EXTRACT CURRENT DATA FROM THE TABLE
-        String id = table.getValueAt(row, 0).toString();
-        String currentFN = table.getValueAt(row, 1).toString();
-        String currentEM = table.getValueAt(row, 2).toString();
-        String currentRole = table.getValueAt(row, 3).toString();
-
-        // 3. CREATE UI COMPONENTS PRE-FILLED WITH CURRENT DATA
-        JTextField fnField = new JTextField(currentFN, 15);
-        JTextField emField = new JTextField(currentEM, 15);
-        String[] roles = {"student", "admin"};
-        JComboBox<String> roleBox = new JComboBox<>(roles);
-        roleBox.setSelectedItem(currentRole);
-
-        // 4. ORGANIZE PANEL (Excluding Username/Password for security/stability)
-        JPanel myPanel = new JPanel(new GridLayout(0, 1, 2, 2));
-        myPanel.add(new JLabel("Full Name:"));
-        myPanel.add(fnField);
-        myPanel.add(new JLabel("Email:"));
-        myPanel.add(emField);
-        myPanel.add(new JLabel("User Type:"));
-        myPanel.add(roleBox);
-
-        // 5. SHOW DIALOG
-        int result = JOptionPane.showConfirmDialog(null, myPanel,
-                "Edit User ID: " + id, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-        if (result == JOptionPane.OK_OPTION) {
-            String newFN = fnField.getText().trim();
-            String newEM = emField.getText().trim();
-            String newRole = roleBox.getSelectedItem().toString();
-
-            // VALIDATION
-            if (newFN.isEmpty() || newEM.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Full Name and Email cannot be empty!");
-                return;
-            }
-
-            String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-            if (!newEM.matches(emailRegex)) {
-                JOptionPane.showMessageDialog(this, "Invalid Email Format!");
-                return;
-            }
-
-            // 6. UPDATE DATABASE
-            try {
-                config conf = new config();
-
-                // CHECK FOR DUPLICATE EMAIL (Exclude the current user's ID)
-                String checkEmailSql = "SELECT id FROM tbl_user WHERE email = ? AND id != ?";
-                if (!conf.fetchRecords(checkEmailSql, newEM, id).isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "This email is already used by another user!");
-                    return;
-                }
-
-                String sql = "UPDATE tbl_user SET fullname = ?, email = ?, type = ? WHERE id = ?";
-                conf.addRecord(sql, newFN, newEM, newRole, id);
-
-                JOptionPane.showMessageDialog(this, "User Updated Successfully!");
-                displayData(); // Refresh the table
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Update Error: " + e.getMessage());
-            }
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // 1. GET THE SELECTED ROW
-        int row = table.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a user to change status!", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // 2. GET CURRENT DATA
-        String id = table.getValueAt(row, 0).toString();
-        String currentStatus = table.getValueAt(row, 4).toString(); // Assuming Status is the 5th column
-        String newStatus = currentStatus.equalsIgnoreCase("Active") ? "Inactive" : "Active";
-
-        // 3. CONFIRMATION DIALOG
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to change the status of ID: " + id + " to " + newStatus + "?",
-                "Confirm Status Change", JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            try {
-                config conf = new config();
-
-                // 4. UPDATE STATUS IN DATABASE
-                String sql = "UPDATE tbl_user SET status = ? WHERE id = ?";
-                conf.addRecord(sql, newStatus, id);
-
-                JOptionPane.showMessageDialog(this, "User is now " + newStatus + "!");
-
-                // 5. REFRESH TABLE
-                displayData();
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error updating status: " + e.getMessage());
-            }
-        }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         config conf = new config();
 
@@ -593,13 +416,10 @@ public class Subject extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adminmenu;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel logout;
-    private javax.swing.JLabel manageuser;
     private javax.swing.JLabel profile;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
